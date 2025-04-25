@@ -1,0 +1,56 @@
+import { createGlobalStyle } from 'styled-components';
+
+const GlobalStyles = createGlobalStyle`
+  html {
+  --mio-theme-color-primary: rgb(143 76 56);
+  --mio-theme-color-surface-tint: rgb(143 76 56);
+  --mio-theme-color-on-primary: rgb(255 255 255);
+  --mio-theme-color-primary-container: rgb(255 219 209);
+  --mio-theme-color-on-primary-container: rgb(114 53 35);
+  --mio-theme-color-secondary: rgb(119 87 78);
+  --mio-theme-color-on-secondary: rgb(255 255 255);
+  --mio-theme-color-secondary-container: rgb(255 219 209);
+  --mio-theme-color-on-secondary-container: rgb(93 64 55);
+  --mio-theme-color-tertiary: rgb(108 93 47);
+  --mio-theme-color-on-tertiary: rgb(255 255 255);
+  --mio-theme-color-tertiary-container: rgb(245 225 167);
+  --mio-theme-color-on-tertiary-container: rgb(83 70 25);
+  --mio-theme-color-error: rgb(186 26 26);
+  --mio-theme-color-on-error: rgb(255 255 255);
+  --mio-theme-color-error-container: rgb(255 218 214);
+  --mio-theme-color-on-error-container: rgb(147 0 10);
+  --mio-theme-color-background: rgb(255 248 246);
+  --mio-theme-color-on-background: rgb(35 25 23);
+  --mio-theme-color-surface: rgb(255 248 246);
+  --mio-theme-color-on-surface: rgb(35 25 23);
+  --mio-theme-color-surface-variant: rgb(245 222 216);
+  --mio-theme-color-on-surface-variant: rgb(83 67 63);
+  --mio-theme-color-outline: rgb(133 115 110);
+  --mio-theme-color-outline-variant: rgb(216 194 188);
+  --mio-theme-color-shadow: rgb(0 0 0);
+  --mio-theme-color-scrim: rgb(0 0 0);
+  --mio-theme-color-inverse-surface: rgb(57 46 43);
+  --mio-theme-color-inverse-on-surface: rgb(255 237 232);
+  --mio-theme-color-inverse-primary: rgb(255 181 160);
+  --mio-theme-color-primary-fixed: rgb(255 219 209);
+  --mio-theme-color-on-primary-fixed: rgb(58 11 1);
+  --mio-theme-color-primary-fixed-dim: rgb(255 181 160);
+  --mio-theme-color-on-primary-fixed-variant: rgb(114 53 35);
+  --mio-theme-color-secondary-fixed: rgb(255 219 209);
+  --mio-theme-color-on-secondary-fixed: rgb(44 21 15);
+  --mio-theme-color-secondary-fixed-dim: rgb(231 189 178);
+  --mio-theme-color-on-secondary-fixed-variant: rgb(93 64 55);
+  --mio-theme-color-tertiary-fixed: rgb(245 225 167);
+  --mio-theme-color-on-tertiary-fixed: rgb(35 27 0);
+  --mio-theme-color-tertiary-fixed-dim: rgb(216 197 141);
+  --mio-theme-color-on-tertiary-fixed-variant: rgb(83 70 25);
+  --mio-theme-color-surface-dim: rgb(232 214 210);
+  --mio-theme-color-surface-bright: rgb(255 248 246);
+  --mio-theme-color-surface-container-lowest: rgb(255 255 255);
+  --mio-theme-color-surface-container-low: rgb(255 241 237);
+  --mio-theme-color-surface-container: rgb(252 234 229);
+  --mio-theme-color-surface-container-high: rgb(247 228 224);
+  --mio-theme-color-surface-container-highest: rgb(241 223 218);
+  }`;
+
+export default GlobalStyles;
