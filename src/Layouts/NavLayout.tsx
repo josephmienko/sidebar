@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import ResponsiveAppBar from '../Components/ResponsiveAppBar';
 import MobileTopDrawer from '../Components/Drawers/MobileTopDrawer';
@@ -6,13 +6,15 @@ import DesktopTopDrawerRail from '../Components/Drawers/DesktopTopDrawerRail'; /
 import DesktopChildDrawer from '../Components/Drawers/DesktopChildDrawer'; // Import DesktopChildDrawer
 import { NavItem } from '../types/NavTypes'; // Import NavItem type
 import { NavLayoutProps } from '../types/NavTypes';
+import { useMediaQuery } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 // Define drawer widths consistently
 const desktopNavRailWidth = 88; // match MiniTopDrawer’s expanded width
 const childDrawerWidth = 240; // Desktop child drawer width
 const mobileDrawerWidth = 319; // Mobile drawer width
 
-export default function NavLayout({ children, title }: NavLayoutProps) {
+export default function NavLayout({ children, title, navItems }: NavLayoutProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopChildDrawerOpen, setDesktopChildDrawerOpen] = useState(false); // State for desktop child drawer
   const [childNavItems, setChildNavItems] = useState<NavItem[] | null>(null); // State for child items
@@ -40,6 +42,45 @@ export default function NavLayout({ children, title }: NavLayoutProps) {
       setChildNavItems(null);
     }, 300); // 300ms matches Fade timeout in DesktopChildDrawer
   };
+
+  const isWideScreen = useMediaQuery('(min-width:1536px)');
+  const location = useLocation();
+
+  function findAncestorWithChildren(navItems: NavItem[], pathname: string): NavItem | null {
+    let match: NavItem | null = null;
+    function search(items: NavItem[], ancestors: NavItem[] = []) {
+      if (!Array.isArray(items)) return;
+      for (const item of items) {
+        if (pathname === item.path || pathname.startsWith(item.path + '/')) {
+          if (item.children && item.children.length > 0) {
+            match = item;
+          }
+          if (item.children) {
+            search(item.children, [...ancestors, item]);
+          }
+        }
+      }
+    }
+    search(navItems);
+    return match;
+  }
+
+  useEffect(() => {
+    if (isWideScreen) {
+      const ancestor = findAncestorWithChildren(navItems, location.pathname);
+      if (ancestor && ancestor.children && ancestor.children.length > 0) {
+        setChildNavItems(ancestor.children);
+        setDesktopChildDrawerOpen(true);
+      } else {
+        setChildNavItems(null);
+        setDesktopChildDrawerOpen(false);
+      }
+    } else {
+      // Always close the child drawer when not wide screen
+      setDesktopChildDrawerOpen(false);
+      setChildNavItems(null);
+    }
+  }, [isWideScreen, location.pathname, navItems]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
@@ -69,20 +110,20 @@ export default function NavLayout({ children, title }: NavLayoutProps) {
           {/* MiniTopDrawer Container (adjust width if needed, or let MiniTopDrawer handle its own width) */}
            <DesktopTopDrawerRail
              onCategoryClick={handleCategoryClick}
-             open={desktopChildDrawerOpen} // Pass the state for open
-             navItems={childNavItems || []} // Pass childNavItems or an empty array
-             onClose={handleChildDrawerClose} // Pass the handler for closing
+             open={desktopChildDrawerOpen}
+             navItems={navItems} // <-- always top-level navItems
+             onClose={handleChildDrawerClose}
            />
 
           {/* Desktop Child Drawer - Rendered here, positioned absolutely */}
-          {childNavItems && (
+          {childNavItems && childNavItems.length > 0 && (
             <DesktopChildDrawer
               open={desktopChildDrawerOpen}
               navItems={childNavItems}
-              onClose={handleChildDrawerClose} // Use the handler from NavLayout
-              onBackToMainMenu={handleChildDrawerClose} // Use the handler from NavLayout
-              left={desktopNavRailWidth} // Position it to the right of the expanded MiniTopDrawer
-              drawerWidth={childDrawerWidth} // <-- Pass width as prop
+              onClose={handleChildDrawerClose}
+              onBackToMainMenu={handleChildDrawerClose}
+              left={desktopNavRailWidth}
+              drawerWidth={childDrawerWidth}
             />
           )}
         </Box>
@@ -94,6 +135,7 @@ export default function NavLayout({ children, title }: NavLayoutProps) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           drawerWidth={mobileDrawerWidth} // <-- Use 319px for mobile
+          navItems={childNavItems || []} // Pass childNavItems or an empty array
         />
 
         {/* Main Content */}

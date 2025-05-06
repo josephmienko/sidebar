@@ -82,12 +82,3 @@ export const mobileAndTopDrawerLabelStyles = (
   ...listItemTextStyles(theme, isActive, isHovered),
   fontSize: '1rem', // Override font size for these drawers
 })
-
-export const desktopChildDrawerLabelStyles = (
-  theme: Theme,
-  isActive: boolean,
-  isHovered?: boolean
-): Record<string, any> => ({
-  ...listItemTextStyles(theme, isActive, isHovered),
-  fontSize: '14px', // or your desired smaller size
-})

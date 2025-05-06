@@ -17,8 +17,9 @@ export interface DesktopTopDrawerRailProps {
 }
 
 export interface NavLayoutProps {
+  title: string;
   children: React.ReactNode;
-  title?: string;
+  navItems: NavItem[]; // Add navItems property
 }
 
 interface BaseDrawerProps {
